@@ -34,6 +34,10 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
+import business.Bar;
+import business.Cliente;
+import business.Socio;
+
 
 public class Teste extends Application {
 
@@ -41,15 +45,12 @@ public class Teste extends Application {
 
     public void start(Stage primaryStage) throws Exception {
 
-        //creating label email
         Text text1 = new Text("Vamos começar um novo dia de trabalho? \nPor favor, informe a data de hoje no formato \"ddmmyy\"");
 
 
-        //Creating Text Filed for email
         TextField textField1 = new TextField();
         textField1.setAlignment(Pos.CENTER);
 
-        //Creating Buttons
         Button button1 = new Button("Começar");
 
         primaryStage.setTitle("Bar Project");
@@ -84,6 +85,8 @@ public class Teste extends Application {
 
 
         button1.setOnAction(e -> {
+            Bar bar = new Bar(textField1.getText());
+
             GridPane gridPane1 = new GridPane();
             //Setting size for the pane
             gridPane1.setMinSize(400, 200);
@@ -101,12 +104,16 @@ public class Teste extends Application {
             Button cadastroCliente = new Button("Cadastrar Cliente");
             Button removerCliente = new Button("Remover Cliente");
             Button listaDeClientes = new Button("Lista de Clientes");
+            Button percentualGenero = new Button("Percentual de Clientes por Gênero");
+            Button percentualSocio = new Button("Percentual de Clientes por Status de Sócio");
             Button finalizarDia = new Button("Finalizar dia");
 
             gridPane1.add(cadastroCliente, 0, 0);
             gridPane1.add(removerCliente, 1, 0);
-            gridPane1.add(listaDeClientes, 0, 2);
-            gridPane1.add(finalizarDia, 1, 2);
+            gridPane1.add(percentualGenero, 0, 2);
+            gridPane1.add(percentualSocio, 1, 2);
+            gridPane1.add(listaDeClientes, 0, 4);
+            gridPane1.add(finalizarDia, 1, 4);
 
             Scene scene1 = new Scene(gridPane1);
             primaryStage.setScene(scene1);
@@ -122,42 +129,44 @@ public class Teste extends Application {
                 pane.setVgap(3);
                 pane.setPadding(new Insets(25, 25, 25, 25));
 
-                Text NOME = new Text();
-                NOME.setText("NOME: ");
-                pane.add(NOME, 0,0);
-                TextField nome = new TextField();
-                pane.add(nome, 1,0);
-
                 Text CPF = new Text();
                 CPF.setText("CPF: ");
-                pane.add(CPF, 0,2);
+                pane.add(CPF, 0,0);
                 TextField cpf = new TextField();
-                pane.add(cpf, 1,2);
+                pane.add(cpf, 1,0);
 
                 Text GENERO = new Text();
                 GENERO.setText("GÊNERO: ");
-                pane.add(GENERO,0,4);
+                pane.add(GENERO,0,2);
                 ChoiceBox cb = new ChoiceBox(FXCollections.observableArrayList(
-                        "M", "F")
+                        'M', 'F')
                 );
-                pane.add(cb, 1,4);
+                pane.add(cb, 1,2);
 
                 Text IDADE = new Text();
                 IDADE.setText("IDADE: ");
-                pane.add(IDADE, 0,6);
+                pane.add(IDADE, 0,4);
                 TextField idade = new TextField();
-                pane.add(idade, 1, 6);
+                pane.add(idade, 1, 4);
 
                 Text SOCIO = new Text();
-                SOCIO.setText("SE SÓCIO: ");
-                pane.add(SOCIO, 0,8);
+                SOCIO.setText("Nº SÓCIO (opcional): ");
+                pane.add(SOCIO, 0,6);
                 TextField socio = new TextField();
-                pane.add(socio, 1, 8);
+                pane.add(socio, 1, 6);
 
+                Button confirma = new Button("Confirmar");
+                pane.add(confirma, 4, 0);
 
                 Scene scene3 = new Scene(pane, 300, 275);
                 stage.setScene(scene3);
                 stage.show();
+
+                confirma.setOnAction(e11 ->{
+                    if(socio.getText().equals(" ")) bar.addCliente(new Cliente(Integer.parseInt(idade.getText()), cpf.getText(), ));
+                    else bar.addCliente(new Cliente(Integer.parseInt(idade.getText()), cpf.getText(), idade, Integer.parseInt(socio.getText())));
+                });
+
             });
 
             removerCliente.setOnAction(e2 ->{
@@ -179,6 +188,20 @@ public class Teste extends Application {
                 stage.setScene(scene4);
                 stage.show();
 
+                Button confirma = new Button("Confirmar");
+                pane.add(confirma, 4, 0);
+
+                confirma.setOnAction(e11 ->{
+                    bar.removeCliente(remove.getText());
+                });
+
+            });
+
+
+
+            finalizarDia.setOnAction(e2 ->{
+                bar.finalizarDia();
+                System.exit(0);
             });
 
         });
