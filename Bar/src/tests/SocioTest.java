@@ -10,6 +10,8 @@ import org.junit.runner.RunWith;
 
 import static org.junit.Assert.*;
 
+import business.*;
+
 @RunWith(Arquillian.class)
 public class SocioTest {
     @Deployment
@@ -19,7 +21,7 @@ public class SocioTest {
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
     }
 
-    private final Socio socioTest = Socio(22, "024.834.323-55", "M", 1, "Rodrigo");
+    private final Socio socioTest = new Socio(22, "024.834.323-55", 'M', 1, "Rodrigo");
 
     @Test
     public void getNsocio() {
@@ -27,7 +29,8 @@ public class SocioTest {
     }
 //
     @Test
-    public void setNsocio() {
-        assertEquals(socioTest.setNsocio(novoNsocio), novoNsocio);
+    public void setNsocio(int novoNsocio) {
+        socioTest.setNsocio(novoNsocio);
+        assertEquals(socioTest.getIdade(), novoNsocio);
     }
 }

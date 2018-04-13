@@ -42,7 +42,7 @@ public class Bar {
     public boolean estaNoBar(String cpf) {
 
         for(Cliente cliente : this.clientes) {
-            if(cliente.getCpf() == cpf) return true;
+            if(cliente.getCpf().equals(cpf)) return true;
         }
 
         return false;

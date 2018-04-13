@@ -10,6 +10,8 @@ import org.junit.runner.RunWith;
 
 import static org.junit.Assert.*;
 
+import business.*;
+
 @RunWith(Arquillian.class)
 public class ClienteTest {
     @Deployment
@@ -19,7 +21,7 @@ public class ClienteTest {
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
     }
 
-    private final Cliente clienteTest = new Cliente(22, "024.834.323-55", "M", 1, "Rodrigo");
+    private final Cliente clienteTest = new Cliente(22, "024.834.323-55", 'M', "Rodrigo");
 
     @Test
     public void getIdade() {
@@ -37,19 +39,20 @@ public class ClienteTest {
     }
 
     @Test
-    public void setIdade() {
-        assertEquals(clienteTest.setIdade(novaIdade), novaIdade);
+    public void setIdade(int novaIdade) {
+        clienteTest.setIdade(novaIdade);
+        assertEquals(clienteTest.getIdade(), novaIdade);
     }
 
     @Test
-    public void setCpf() {
-        assertEquals(clienteTest.setIdade(novoCpf), novoCpf;
-
+    public void setCpf(String cpf) {
+        clienteTest.setCpf(cpf);
+        assertEquals(clienteTest.getCpf(), cpf);
     }
 
     @Test
-    public void setGenero() {
-        assertEquals(clienteTest.setIdade(novoGenero), novoGenero);
-
+    public void setGenero(char genero) {
+        clienteTest.setGenero(genero);
+        assertEquals(clienteTest.getGenero(), genero);
     }
 }
