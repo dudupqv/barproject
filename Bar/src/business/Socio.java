@@ -17,4 +17,8 @@ public class Socio extends Cliente {
         this.nsocio = nsocio;
     }
 
+    @Override
+    public String toString() {
+        return super.toString() + "\nNº de sócio: " + this.nsocio;
+    }
 }

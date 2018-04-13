@@ -36,4 +36,13 @@ public class Cliente {
         this.genero = genero;
     }
 
+    @Override
+    public String toString() {
+        String genero;
+
+        if(this.genero == 'm') genero = "masculino";
+        else genero = "feminino";
+
+        return "CPF: " + this.cpf + "\nIdade: " + this.idade + "\nGênero: " + genero;
+    }
 }

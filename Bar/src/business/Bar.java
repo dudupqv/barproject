@@ -2,6 +2,8 @@ package business;
 
 import java.util.*;
 
+import persistence.Escritor;
+
 public class Bar {
 
     private String data;
@@ -30,7 +32,7 @@ public class Bar {
     }
 
     public List<Cliente> getClientes() {
-        return new ArrayList<>(clientes);
+        return new ArrayList<>(this.clientes);
     }
 
     public int getNumClientes() {
@@ -38,11 +40,42 @@ public class Bar {
     }
 
     public boolean estaNoBar(String cpf) {
+
+        Socio a = new Socio(5, "asd", '1', 6);
+
         for(Cliente cliente : this.clientes) {
             if(cliente.getCpf() == cpf) return true;
         }
 
         return false;
+    }
+
+    public String percentualGenero() {
+        int f = 0, m = 0;
+
+        for(Cliente cliente : this.clientes) {
+            if(cliente.getGenero() == 'f') f++;
+            else m++;
+        }
+
+        return "Mulheres: " + (f / (f + m * 1.0) * 100) + "%\n" +
+               "Homens: " + (m / (f + m * 1.0) * 100) + "%\n";
+    }
+
+    public String percentualSocio() {
+        int s = 0, ns = 0;
+
+        for(Cliente cliente : this.clientes) {
+            if(cliente instanceof Socio) s++;
+            else ns++;
+        }
+
+        return "Sócios: " + (s / (s + ns * 1.0) * 100) + "%\n" +
+               "Não sócios: " + (ns / (s + ns * 1.0) * 100) + "%\n";
+    }
+
+    public void finalizarDia() {
+        Escritor.escreve(this.data, new ArrayList<>(this.clientes));
     }
 
 }
