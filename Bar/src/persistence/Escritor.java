@@ -25,7 +25,7 @@ public class Escritor {
 
         try {
 
-            File arquivo = new File(PATH + fileName);
+            File arquivo = new File(PATH + fileName + ".txt");
 
             fw = new FileWriter(arquivo);
             bw = new BufferedWriter(fw);

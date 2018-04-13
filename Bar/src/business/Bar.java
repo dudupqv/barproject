@@ -22,7 +22,7 @@ public class Bar {
         Cliente removido = null;
 
         for(Cliente cliente : this.clientes) {
-            if(cliente.getCpf() == cpf) {
+            if(cliente.getCpf().equals(cpf)) {
                 removido = cliente;
                 break;
             }
@@ -41,8 +41,6 @@ public class Bar {
 
     public boolean estaNoBar(String cpf) {
 
-        Socio a = new Socio(5, "asd", '1', 6);
-
         for(Cliente cliente : this.clientes) {
             if(cliente.getCpf() == cpf) return true;
         }
@@ -54,7 +52,7 @@ public class Bar {
         int f = 0, m = 0;
 
         for(Cliente cliente : this.clientes) {
-            if(cliente.getGenero() == 'f') f++;
+            if(cliente.getGenero() == 'F') f++;
             else m++;
         }
 

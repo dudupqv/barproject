@@ -20,6 +20,8 @@ import javax.swing.SwingUtilities;
 
 import javafx.scene.Group;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.ComboBoxListCell;
+import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 
@@ -129,42 +131,63 @@ public class Teste extends Application {
                 pane.setVgap(3);
                 pane.setPadding(new Insets(25, 25, 25, 25));
 
+                Text NOME = new Text();
+                NOME.setText("NOME: ");
+                pane.add(NOME, 0,0);
+                TextField nome = new TextField();
+                pane.add(nome, 1,0);
+
                 Text CPF = new Text();
                 CPF.setText("CPF: ");
-                pane.add(CPF, 0,0);
+                pane.add(CPF, 0,2);
                 TextField cpf = new TextField();
-                pane.add(cpf, 1,0);
+                pane.add(cpf, 1,2);
 
                 Text GENERO = new Text();
                 GENERO.setText("GÊNERO: ");
-                pane.add(GENERO,0,2);
+                pane.add(GENERO,0,4);
                 ChoiceBox cb = new ChoiceBox(FXCollections.observableArrayList(
                         'M', 'F')
                 );
-                pane.add(cb, 1,2);
+                pane.add(cb, 1,4);
 
                 Text IDADE = new Text();
                 IDADE.setText("IDADE: ");
-                pane.add(IDADE, 0,4);
+                pane.add(IDADE, 0,6);
                 TextField idade = new TextField();
-                pane.add(idade, 1, 4);
+                pane.add(idade, 1, 6);
 
                 Text SOCIO = new Text();
                 SOCIO.setText("Nº SÓCIO (opcional): ");
-                pane.add(SOCIO, 0,6);
+                pane.add(SOCIO, 0,8);
                 TextField socio = new TextField();
-                pane.add(socio, 1, 6);
+                pane.add(socio, 1, 8);
 
                 Button confirma = new Button("Confirmar");
-                pane.add(confirma, 4, 0);
+                pane.add(confirma, 0, 10);
 
                 Scene scene3 = new Scene(pane, 300, 275);
                 stage.setScene(scene3);
                 stage.show();
 
                 confirma.setOnAction(e11 ->{
-                    if(socio.getText().equals(" ")) bar.addCliente(new Cliente(Integer.parseInt(idade.getText()), cpf.getText(), ));
-                    else bar.addCliente(new Cliente(Integer.parseInt(idade.getText()), cpf.getText(), idade, Integer.parseInt(socio.getText())));
+                    if(socio.getText().equals("")) {
+                        bar.addCliente(new Cliente(Integer.parseInt(idade.getText()), cpf.getText(), cb.getValue().toString().charAt(0), nome.getText()));
+                        Alert dialogoInfo = new Alert(Alert.AlertType.INFORMATION);
+                        dialogoInfo.setTitle("Diálogo de informação");
+                        dialogoInfo.setHeaderText("Esse é o cabeçalho...");
+                        dialogoInfo.setContentText("USUÁRIO NÃO-SÓCIO CADASTRADO!");
+                        dialogoInfo.showAndWait();
+                    }
+
+                    else {
+                        bar.addCliente(new Socio(Integer.parseInt(idade.getText()), cpf.getText(),cb.getValue().toString().charAt(0),Integer.parseInt(socio.getText()), nome.getText()));
+                        Alert dialogoInfo = new Alert(Alert.AlertType.INFORMATION);
+                        dialogoInfo.setTitle("Diálogo de informação");
+                        dialogoInfo.setHeaderText("Esse é o cabeçalho...");
+                        dialogoInfo.setContentText("USUÁRIO SÓCIO CADASTRADO!");
+                        dialogoInfo.showAndWait();
+                    }
                 });
 
             });
@@ -189,10 +212,15 @@ public class Teste extends Application {
                 stage.show();
 
                 Button confirma = new Button("Confirmar");
-                pane.add(confirma, 4, 0);
+                pane.add(confirma, 0, 2);
 
                 confirma.setOnAction(e11 ->{
                     bar.removeCliente(remove.getText());
+                    Alert dialogoInfo = new Alert(Alert.AlertType.INFORMATION);
+                    dialogoInfo.setTitle("barProject");
+                    dialogoInfo.setHeaderText("REMOVE CLIENTE");
+                    dialogoInfo.setContentText("USUÁRIO REMOVIDO COM SUCESSO!");
+                    dialogoInfo.showAndWait();
                 });
 
             });
@@ -202,6 +230,47 @@ public class Teste extends Application {
             finalizarDia.setOnAction(e2 ->{
                 bar.finalizarDia();
                 System.exit(0);
+            });
+
+            percentualGenero.setOnAction(e3 ->{
+                Alert dialogoInfo = new Alert(Alert.AlertType.INFORMATION);
+                dialogoInfo.setTitle("BarProject");
+                dialogoInfo.setHeaderText("PERCENTUAL GÊNERO");
+                dialogoInfo.setContentText("O percentual de pessoar por gênero no  bar é: \n" + bar.percentualGenero());
+                dialogoInfo.showAndWait();
+            });
+
+            percentualSocio.setOnAction(e3 ->{
+                Alert dialogoInfo = new Alert(Alert.AlertType.INFORMATION);
+                dialogoInfo.setTitle("BarProject");
+                dialogoInfo.setHeaderText("PERCENTUAL SÓCIO");
+                dialogoInfo.setContentText("O percentual de sócio no  bar é: \n" + bar.percentualSocio());
+                dialogoInfo.showAndWait();
+            });
+
+            listaDeClientes.setOnAction(e4 ->{
+                ObservableList<String> names = FXCollections
+                        .observableArrayList();
+                ObservableList<String> data = FXCollections.observableArrayList();
+
+                ListView<String> listView = new ListView<String>(data);
+                listView.setPrefSize(200, 250);
+                listView.setEditable(true);
+
+                for(Cliente c : bar.getClientes()){
+                    names.add(c.toString());
+                }
+
+                data.add("Lista de Clientes no Bar");
+
+                listView.setItems(data);
+                listView.setCellFactory(ComboBoxListCell.forListView(names));
+
+                StackPane root = new StackPane();
+                root.getChildren().add(listView);
+                Stage stage2 = new Stage();
+                stage2.setScene(new Scene(root, 200, 250));
+                stage2.show();
             });
 
         });

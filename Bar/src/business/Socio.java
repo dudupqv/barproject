@@ -4,8 +4,8 @@ public class Socio extends Cliente {
 
     private int nsocio;
 
-    public Socio(int idade, String cpf, char genero, int nsocio) {
-        super(idade, cpf, genero);
+    public Socio(int idade, String cpf, char genero, int nsocio, String nome) {
+        super(idade, cpf, genero, nome);
         this.nsocio = nsocio;
     }
 
