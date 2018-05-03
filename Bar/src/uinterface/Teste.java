@@ -35,6 +35,8 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 
 import business.Bar;
 import business.Cliente;
@@ -87,191 +89,231 @@ public class Teste extends Application {
 
 
         button1.setOnAction(e -> {
-            Bar bar = new Bar(textField1.getText());
 
-            GridPane gridPane1 = new GridPane();
-            //Setting size for the pane
-            gridPane1.setMinSize(400, 200);
+            try {
 
-            //Setting the padding
-            gridPane1.setPadding(new Insets(10, 10, 10, 10));
+                if(textField1.getText().length() != 6) throw new Exception();
+                int a = Integer.parseInt(textField1.getText());
 
-            //Setting the vertical and horizontal gaps between the columns
-            gridPane1.setVgap(5);
-            gridPane1.setHgap(5);
+                Bar bar = new Bar(textField1.getText());
 
-            //Setting the Grid alignment
-            gridPane1.setAlignment(Pos.CENTER);
+                GridPane gridPane1 = new GridPane();
+                //Setting size for the pane
+                gridPane1.setMinSize(400, 200);
 
-            Button cadastroCliente = new Button("Cadastrar Cliente");
-            Button removerCliente = new Button("Remover Cliente");
-            Button listaDeClientes = new Button("Lista de Clientes");
-            Button percentualGenero = new Button("Percentual de Clientes por Gênero");
-            Button percentualSocio = new Button("Percentual de Clientes por Status de Sócio");
-            Button finalizarDia = new Button("Finalizar dia");
+                //Setting the padding
+                gridPane1.setPadding(new Insets(10, 10, 10, 10));
 
-            gridPane1.add(cadastroCliente, 0, 0);
-            gridPane1.add(removerCliente, 1, 0);
-            gridPane1.add(percentualGenero, 0, 2);
-            gridPane1.add(percentualSocio, 1, 2);
-            gridPane1.add(listaDeClientes, 0, 4);
-            gridPane1.add(finalizarDia, 1, 4);
+                //Setting the vertical and horizontal gaps between the columns
+                gridPane1.setVgap(5);
+                gridPane1.setHgap(5);
 
-            Scene scene1 = new Scene(gridPane1);
-            primaryStage.setScene(scene1);
-            primaryStage.show();
+                //Setting the Grid alignment
+                gridPane1.setAlignment(Pos.CENTER);
+
+                Button cadastroCliente = new Button("Cadastrar Cliente");
+                Button removerCliente = new Button("Remover Cliente");
+                Button listaDeClientes = new Button("Lista de Clientes");
+                Button percentualGenero = new Button("Percentual de Clientes por Gênero");
+                Button percentualSocio = new Button("Percentual de Clientes por Status de Sócio");
+                Button finalizarDia = new Button("Finalizar dia");
+
+                gridPane1.add(cadastroCliente, 0, 0);
+                gridPane1.add(removerCliente, 1, 0);
+                gridPane1.add(percentualGenero, 0, 2);
+                gridPane1.add(percentualSocio, 1, 2);
+                gridPane1.add(listaDeClientes, 0, 4);
+                gridPane1.add(finalizarDia, 1, 4);
+
+                Scene scene1 = new Scene(gridPane1);
+                primaryStage.setScene(scene1);
+                primaryStage.show();
 
 
-            cadastroCliente.setOnAction(e1 ->{
-                Stage stage = new Stage();
-                stage.setTitle("CADASTRO DE CLIENTE");
-                GridPane pane = new GridPane();
-                pane.setAlignment(Pos.CENTER);
-                pane.setHgap(3);
-                pane.setVgap(3);
-                pane.setPadding(new Insets(25, 25, 25, 25));
+                cadastroCliente.setOnAction(e1 -> {
+                    Stage stage = new Stage();
+                    stage.setTitle("CADASTRO DE CLIENTE");
+                    GridPane pane = new GridPane();
+                    pane.setAlignment(Pos.CENTER);
+                    pane.setHgap(3);
+                    pane.setVgap(3);
+                    pane.setPadding(new Insets(25, 25, 25, 25));
 
-                Text NOME = new Text();
-                NOME.setText("NOME: ");
-                pane.add(NOME, 0,0);
-                TextField nome = new TextField();
-                pane.add(nome, 1,0);
+                    Text NOME = new Text();
+                    NOME.setText("NOME: ");
+                    pane.add(NOME, 0, 0);
+                    TextField nome = new TextField();
+                    pane.add(nome, 1, 0);
 
-                Text CPF = new Text();
-                CPF.setText("CPF: ");
-                pane.add(CPF, 0,2);
-                TextField cpf = new TextField();
-                pane.add(cpf, 1,2);
+                    Text CPF = new Text();
+                    CPF.setText("CPF: ");
+                    pane.add(CPF, 0, 2);
+                    TextField cpf = new TextField();
+                    pane.add(cpf, 1, 2);
 
-                Text GENERO = new Text();
-                GENERO.setText("GÊNERO: ");
-                pane.add(GENERO,0,4);
-                ChoiceBox cb = new ChoiceBox(FXCollections.observableArrayList(
-                        'M', 'F')
-                );
-                pane.add(cb, 1,4);
+                    Text GENERO = new Text();
+                    GENERO.setText("GÊNERO: ");
+                    pane.add(GENERO, 0, 4);
+                    ChoiceBox cb = new ChoiceBox(FXCollections.observableArrayList(
+                            'M', 'F')
+                    );
+                    pane.add(cb, 1, 4);
 
-                Text IDADE = new Text();
-                IDADE.setText("IDADE: ");
-                pane.add(IDADE, 0,6);
-                TextField idade = new TextField();
-                pane.add(idade, 1, 6);
+                    Text IDADE = new Text();
+                    IDADE.setText("IDADE: ");
+                    pane.add(IDADE, 0, 6);
+                    TextField idade = new TextField();
+                    pane.add(idade, 1, 6);
 
-                Text SOCIO = new Text();
-                SOCIO.setText("Nº SÓCIO (opcional): ");
-                pane.add(SOCIO, 0,8);
-                TextField socio = new TextField();
-                pane.add(socio, 1, 8);
+                    Text SOCIO = new Text();
+                    SOCIO.setText("Nº SÓCIO (opcional): ");
+                    pane.add(SOCIO, 0, 8);
+                    TextField socio = new TextField();
+                    pane.add(socio, 1, 8);
 
-                Button confirma = new Button("Confirmar");
-                pane.add(confirma, 0, 10);
+                    Button confirma = new Button("Confirmar");
+                    pane.add(confirma, 0, 10);
 
-                Scene scene3 = new Scene(pane, 300, 275);
-                stage.setScene(scene3);
-                stage.show();
+                    Scene scene3 = new Scene(pane, 300, 275);
+                    stage.setScene(scene3);
+                    stage.show();
 
-                confirma.setOnAction(e11 ->{
-                    if(socio.getText().equals("")) {
-                        bar.addCliente(new Cliente(Integer.parseInt(idade.getText()), cpf.getText(), cb.getValue().toString().charAt(0), nome.getText()));
-                        Alert dialogoInfo = new Alert(Alert.AlertType.INFORMATION);
-                        dialogoInfo.setTitle("Diálogo de informação");
-                        dialogoInfo.setHeaderText("Esse é o cabeçalho...");
-                        dialogoInfo.setContentText("USUÁRIO NÃO-SÓCIO CADASTRADO!");
-                        dialogoInfo.showAndWait();
-                    }
+                    confirma.setOnAction(e11 -> {
 
-                    else {
-                        bar.addCliente(new Socio(Integer.parseInt(idade.getText()), cpf.getText(),cb.getValue().toString().charAt(0),Integer.parseInt(socio.getText()), nome.getText()));
-                        Alert dialogoInfo = new Alert(Alert.AlertType.INFORMATION);
-                        dialogoInfo.setTitle("Diálogo de informação");
-                        dialogoInfo.setHeaderText("Esse é o cabeçalho...");
-                        dialogoInfo.setContentText("USUÁRIO SÓCIO CADASTRADO!");
-                        dialogoInfo.showAndWait();
-                    }
+                        try {
+
+                            long b = Long.parseLong(cpf.getText());
+                            b = Integer.parseInt(idade.getText());
+                            if (idade.getText().length() > 3) throw new Exception();
+                            if (cpf.getText().length() != 11) throw new Exception();
+
+                            if (socio.getText().equals("")) {
+                                bar.addCliente(new Cliente(Integer.parseInt(idade.getText()), cpf.getText(), cb.getValue().toString().charAt(0), nome.getText()));
+                                Alert dialogoInfo = new Alert(Alert.AlertType.INFORMATION);
+                                dialogoInfo.setTitle("Cadastro de cliente");
+                                dialogoInfo.setHeaderText("Cadastro de cliente");
+                                dialogoInfo.setContentText("USUÁRIO NÃO-SÓCIO CADASTRADO!");
+                                dialogoInfo.showAndWait();
+                            } else {
+                                bar.addCliente(new Socio(Integer.parseInt(idade.getText()), cpf.getText(), cb.getValue().toString().charAt(0), Integer.parseInt(socio.getText()), nome.getText()));
+                                Alert dialogoInfo = new Alert(Alert.AlertType.INFORMATION);
+                                dialogoInfo.setTitle("Sucesso");
+                                dialogoInfo.setHeaderText("Sucesso");
+                                dialogoInfo.setContentText("USUÁRIO SÓCIO CADASTRADO!");
+                                dialogoInfo.showAndWait();
+                            }
+
+                            stage.close();
+
+                        } catch (Exception exc) {
+                            Alert alert = new Alert(AlertType.ERROR);
+                            alert.setTitle("Erro");
+                            alert.setHeaderText("Erro!");
+                            alert.setContentText("Informe os dados corretamente, por favor");
+
+                            alert.showAndWait();
+                        }
+
+                    });
+
                 });
 
-            });
+                removerCliente.setOnAction(e2 -> {
+                    Stage stage = new Stage();
+                    stage.setTitle("REMOVER CLIENTE");
+                    GridPane pane = new GridPane();
+                    pane.setAlignment(Pos.CENTER);
+                    pane.setHgap(3);
+                    pane.setVgap(3);
+                    pane.setPadding(new Insets(15, 15, 15, 15));
 
-            removerCliente.setOnAction(e2 ->{
-                Stage stage = new Stage();
-                stage.setTitle("REMOVER CLIENTE");
-                GridPane pane = new GridPane();
-                pane.setAlignment(Pos.CENTER);
-                pane.setHgap(3);
-                pane.setVgap(3);
-                pane.setPadding(new Insets(15, 15, 15, 15));
+                    Text REMOVE = new Text();
+                    REMOVE.setText("CPF CLIENTE: ");
+                    pane.add(REMOVE, 0, 0);
+                    TextField remove = new TextField();
+                    pane.add(remove, 1, 0);
 
-                Text REMOVE = new Text();
-                REMOVE.setText("CPF CLIENTE: ");
-                pane.add(REMOVE, 0, 0);
-                TextField remove = new TextField();
-                pane.add(remove, 1,0);
+                    Scene scene4 = new Scene(pane, 300, 275);
+                    stage.setScene(scene4);
+                    stage.show();
 
-                Scene scene4 = new Scene(pane, 300, 275);
-                stage.setScene(scene4);
-                stage.show();
+                    Button confirma = new Button("Confirmar");
+                    pane.add(confirma, 0, 2);
 
-                Button confirma = new Button("Confirmar");
-                pane.add(confirma, 0, 2);
+                    confirma.setOnAction(e11 -> {
+                        bar.removeCliente(remove.getText());
+                        Alert dialogoInfo = new Alert(Alert.AlertType.INFORMATION);
+                        dialogoInfo.setTitle("barProject");
+                        dialogoInfo.setHeaderText("REMOVE CLIENTE");
+                        dialogoInfo.setContentText("USUÁRIO REMOVIDO COM SUCESSO!");
+                        dialogoInfo.showAndWait();
+                        stage.close();
+                    });
 
-                confirma.setOnAction(e11 ->{
-                    bar.removeCliente(remove.getText());
+                });
+
+
+                finalizarDia.setOnAction(e2 -> {
+                    bar.finalizarDia();
+                    System.exit(0);
+                });
+
+                percentualGenero.setOnAction(e3 -> {
                     Alert dialogoInfo = new Alert(Alert.AlertType.INFORMATION);
-                    dialogoInfo.setTitle("barProject");
-                    dialogoInfo.setHeaderText("REMOVE CLIENTE");
-                    dialogoInfo.setContentText("USUÁRIO REMOVIDO COM SUCESSO!");
+                    dialogoInfo.setTitle("BarProject");
+                    dialogoInfo.setHeaderText("PERCENTUAL GÊNERO");
+                    dialogoInfo.setContentText("O percentual de pessoar por gênero no  bar é: \n" + bar.percentualGenero());
                     dialogoInfo.showAndWait();
                 });
 
-            });
+                percentualSocio.setOnAction(e3 -> {
+                    Alert dialogoInfo = new Alert(Alert.AlertType.INFORMATION);
+                    dialogoInfo.setTitle("BarProject");
+                    dialogoInfo.setHeaderText("PERCENTUAL SÓCIO");
+                    dialogoInfo.setContentText("O percentual de sócio no  bar é: \n" + bar.percentualSocio());
+                    dialogoInfo.showAndWait();
+                });
 
+                listaDeClientes.setOnAction(e4 -> {
+                    ObservableList<String> names = FXCollections
+                            .observableArrayList();
+                    ObservableList<String> data = FXCollections.observableArrayList();
 
+                    ListView<String> listView = new ListView<String>(data);
+                    listView.setPrefSize(200, 250);
+                    listView.setEditable(true);
 
-            finalizarDia.setOnAction(e2 ->{
-                bar.finalizarDia();
-                System.exit(0);
-            });
+                    for (Cliente c : bar.getClientes()) {
+                        names.add(c.toString());
+                    }
 
-            percentualGenero.setOnAction(e3 ->{
-                Alert dialogoInfo = new Alert(Alert.AlertType.INFORMATION);
-                dialogoInfo.setTitle("BarProject");
-                dialogoInfo.setHeaderText("PERCENTUAL GÊNERO");
-                dialogoInfo.setContentText("O percentual de pessoar por gênero no  bar é: \n" + bar.percentualGenero());
-                dialogoInfo.showAndWait();
-            });
+                    data.add("Lista de Clientes no Bar");
 
-            percentualSocio.setOnAction(e3 ->{
-                Alert dialogoInfo = new Alert(Alert.AlertType.INFORMATION);
-                dialogoInfo.setTitle("BarProject");
-                dialogoInfo.setHeaderText("PERCENTUAL SÓCIO");
-                dialogoInfo.setContentText("O percentual de sócio no  bar é: \n" + bar.percentualSocio());
-                dialogoInfo.showAndWait();
-            });
+                    listView.setItems(data);
+                    listView.setCellFactory(ComboBoxListCell.forListView(names));
 
-            listaDeClientes.setOnAction(e4 ->{
-                ObservableList<String> names = FXCollections
-                        .observableArrayList();
-                ObservableList<String> data = FXCollections.observableArrayList();
+                    StackPane root = new StackPane();
+                    root.getChildren().add(listView);
+                    Stage stage2 = new Stage();
+                    stage2.setScene(new Scene(root, 250, 60));
+                    stage2.show();
 
-                ListView<String> listView = new ListView<String>(data);
-                listView.setPrefSize(200, 250);
-                listView.setEditable(true);
+                    Alert dialogoInfo = new Alert(Alert.AlertType.INFORMATION);
+                    dialogoInfo.setTitle("Lista de Clientes");
+                    dialogoInfo.setHeaderText("Lista de Clientes");
+                    dialogoInfo.setContentText("Clique em \"Lista de Clientes no Bar\" para abrir a lista de clientes");
+                    dialogoInfo.showAndWait();
+                });
+            }
 
-                for(Cliente c : bar.getClientes()){
-                    names.add(c.toString());
-                }
+            catch(Exception excep) {
+                Alert alert = new Alert(AlertType.ERROR);
+                alert.setTitle("Erro");
+                alert.setHeaderText("Erro!");
+                alert.setContentText("Informe os dados corretamente, por favor");
 
-                data.add("Lista de Clientes no Bar");
-
-                listView.setItems(data);
-                listView.setCellFactory(ComboBoxListCell.forListView(names));
-
-                StackPane root = new StackPane();
-                root.getChildren().add(listView);
-                Stage stage2 = new Stage();
-                stage2.setScene(new Scene(root, 200, 250));
-                stage2.show();
-            });
+                alert.showAndWait();
+            }
 
         });
     }
